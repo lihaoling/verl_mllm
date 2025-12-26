@@ -1,5 +1,8 @@
 set -x
 
+# export http_proxy=http://star-proxy.oa.com:3128
+# export https_proxy=http://star-proxy.oa.com:3128
+
 unset http_proxy
 unset https_proxy
 
@@ -32,6 +35,9 @@ export VLLM_USE_V1=1
 
 export SANDBOX_FUSION_ENDPOINT="http://localhost:8080"
 export WANDB_API_KEY="fc7022e7e115dbc7bef672a9137ebb0618ec9160"
+
+export MASTER_PORT=29500
+export NCCL_PORT=29500
 
 python3 -m verl.trainer.main_ppo \
     algorithm.adv_estimator=grpo \
@@ -85,7 +91,8 @@ python3 -m verl.trainer.main_ppo \
     trainer.total_epochs=15
 
 
-
+# pip install -e . --break-system-packages
+# apt install tmux -y
 # ray start --head --num-gpus=8 --port=6380 --include-dashboard=false --block  &
 
 
@@ -124,7 +131,7 @@ python3 -m verl.trainer.main_ppo \
 # export WANDB_API_KEY="fc7022e7e115dbc7bef672a9137ebb0618ec9160"
 # unset http_proxy
 # unset https_proxy
-# nohup ray start --address=29.81.244.54:6380 --num-gpus=8 --block > /dev/null 2>&1 &
+# nohup ray start --address=29.208.33.228:6380 --num-gpus=8 --block > /dev/null 2>&1 &
 # "
 
 
