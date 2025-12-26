@@ -1,10 +1,10 @@
 set -x
 
-# export http_proxy=http://star-proxy.oa.com:3128
-# export https_proxy=http://star-proxy.oa.com:3128
+export http_proxy=http://star-proxy.oa.com:3128
+export https_proxy=http://star-proxy.oa.com:3128
 
-unset http_proxy
-unset https_proxy
+# unset http_proxy
+# unset https_proxy
 
 export NCCL_IB_GID_INDEX=3
 export NCCL_IB_SL=3
