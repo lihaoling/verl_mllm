@@ -1,15 +1,15 @@
 set -x
 
-export http_proxy=http://star-proxy.oa.com:3128
-export https_proxy=http://star-proxy.oa.com:3128
+# export http_proxy=http://star-proxy.oa.com:3128
+# export https_proxy=http://star-proxy.oa.com:3128
 
-# unset http_proxy
-# unset https_proxy
+unset http_proxy
+unset https_proxy
 
 export NCCL_IB_GID_INDEX=3
 export NCCL_IB_SL=3
 export NCCL_CHECK_DISABLE=1
-export NCCL_P2P_DISABLE=0
+export NCCL_P2P_DISABLE=1
 export NCCL_IB_DISABLE=0
 export NCCL_LL_THRESHOLD=16384
 export NCCL_IB_CUDA_SUPPORT=1
@@ -103,7 +103,7 @@ python3 -m verl.trainer.main_ppo \
 # export NCCL_IB_GID_INDEX=3
 # export NCCL_IB_SL=3
 # export NCCL_CHECK_DISABLE=1
-# export NCCL_P2P_DISABLE=0
+# export NCCL_P2P_DISABLE=1
 # export NCCL_IB_DISABLE=0
 # export NCCL_LL_THRESHOLD=16384
 # export NCCL_IB_CUDA_SUPPORT=1
