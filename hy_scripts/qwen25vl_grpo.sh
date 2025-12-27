@@ -41,8 +41,8 @@ export NCCL_PORT=29500
 
 python3 -m verl.trainer.main_ppo \
     algorithm.adv_estimator=grpo \
-    data.train_files=../data/geo3k/train.parquet \
-    data.val_files=../data/geo3k/test.parquet \
+    data.train_files=./data/geo3k/train.parquet \
+    data.val_files=./data/geo3k/test.parquet \
     data.train_batch_size=512 \
     data.max_prompt_length=2048 \
     data.max_response_length=8192 \
