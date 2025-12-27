@@ -49,7 +49,7 @@ python3 -m verl.trainer.main_ppo \
     data.filter_overlong_prompts=True \
     data.truncation='error' \
     data.image_key=images \
-    actor_rollout_ref.model.path=/apdcephfs_jn3/share_303003824/kevinezheng/ringohlli/ckpt/sft/mllm/qwen25_vl_7b_honeybee_stem_sample_500k_topic_evolve_quality_answer_good_249k_after_bsz128_5e5_5ep_nonpacking/checkpoint-2685 \
+    actor_rollout_ref.model.path=/apdcephfs_zwfy/share_304017095/ringohlli/model/Qwen2.5-VL-7B-Instruct \
     actor_rollout_ref.actor.optim.lr=1e-6 \
     actor_rollout_ref.model.use_remove_padding=True \
     actor_rollout_ref.actor.ppo_mini_batch_size=128 \
@@ -83,7 +83,7 @@ python3 -m verl.trainer.main_ppo \
     trainer.logger='["console","wandb"]' \
     trainer.project_name='mllm_verl_grpo_exp' \
     trainer.experiment_name='qwen25_vl_7b_line22_geo3k_grpo_1e6_bsz512_2048_8192_1226' \
-    trainer.default_local_dir=/apdcephfs_jn3/share_303003824/kevinezheng/ringohlli/ckpt/grpo/qwen25_vl_7b_line22_geo3k_grpo_1e6_bsz512_2048_8192_1226 \
+    trainer.default_local_dir=/apdcephfs_zwfy/share_304017095/ringohlli/ckpt/grpo/qwen25_vl_7b_line22_geo3k_grpo_1e6_bsz512_2048_8192_1226 \
     trainer.n_gpus_per_node=8 \
     trainer.nnodes=2 \
     trainer.save_freq=20 \
@@ -131,7 +131,7 @@ python3 -m verl.trainer.main_ppo \
 # export WANDB_API_KEY="fc7022e7e115dbc7bef672a9137ebb0618ec9160"
 # unset http_proxy
 # unset https_proxy
-# nohup ray start --address=29.208.33.228:6380 --num-gpus=8 --block > /dev/null 2>&1 &
+# nohup ray start --address=28.49.57.178:6380 --num-gpus=8 --block > /dev/null 2>&1 &
 # "
 
 
