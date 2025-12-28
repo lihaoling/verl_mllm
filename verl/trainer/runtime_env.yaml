@@ -3,3 +3,16 @@ excludes: ["/.git/"]
 env_vars:
   TORCH_NCCL_AVOID_RECORD_STREAMS: "1"
   CUDA_DEVICE_MAX_CONNECTIONS: "1"
+  # 确保使用本地 verl_mllm 代码
+  PYTHONPATH: "/apdcephfs/private_ringohlli_qy4/project/verl_mllm"
+  # 修复 PyTorch CUDA 编译时无法检测架构的问题
+  TORCH_CUDA_ARCH_LIST: "8.0;8.9;9.0"
+  # NCCL 跨网段通信配置
+  NCCL_IB_DISABLE: "1"
+  NCCL_P2P_DISABLE: "1"
+  NCCL_SHM_DISABLE: "0"
+  NCCL_SOCKET_IFNAME: "bond1"
+  NCCL_TIMEOUT: "3600"
+  NCCL_SOCKET_NTHREADS: "4"
+  NCCL_NSOCKS_PERTHREAD: "4"
+  NCCL_DEBUG: "INFO"

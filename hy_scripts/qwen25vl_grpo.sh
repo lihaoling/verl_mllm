@@ -6,43 +6,43 @@ set -x
 unset http_proxy
 unset https_proxy
 
-export NCCL_IB_GID_INDEX=3
-export NCCL_IB_SL=3
-export NCCL_CHECK_DISABLE=1
+# 确保使用本地 verl_mllm 代码（优先级高于 /root/verl）
+export PYTHONPATH="/apdcephfs/private_ringohlli_qy4/project/verl_mllm:$PYTHONPATH"
+
+# 禁用 InfiniBand，强制使用 Socket 通信（跨网段场景）
+export NCCL_IB_DISABLE=1
 export NCCL_P2P_DISABLE=1
-export NCCL_IB_DISABLE=0
-export NCCL_LL_THRESHOLD=16384
-export NCCL_IB_CUDA_SUPPORT=1
+export NCCL_SHM_DISABLE=0
 
+# 指定网卡
 export NCCL_SOCKET_IFNAME=bond1
-export UCX_NET_DEVICES=bond1
-export NCCL_IB_HCA=mlx5_bond_1,mlx5_bond_5,mlx5_bond_3,mlx5_bond_7,mlx5_bond_4,mlx5_bond_8,mlx5_bond_2,mlx5_bond_6
 
-export NCCL_COLLNET_ENABLE=0
-export SHARP_COLL_ENABLE_SAT=0
-export NCCL_NET_GDR_LEVEL=2
-export NCCL_IB_QPS_PER_CONNECTION=4
-export NCCL_IB_TC=160
-export NCCL_PXN_DISABLE=1
-
+# 增加超时和重试
+export NCCL_TIMEOUT=3600
 export NCCL_DEBUG=INFO
 export NCCL_DEBUG_SUBSYS=ALL
-export NCCL_TIMEOUT=1800
+
+# Socket 通信优化
+export NCCL_SOCKET_NTHREADS=4
+export NCCL_NSOCKS_PERTHREAD=4
 
 export HYDRA_FULL_ERROR=1
+
+# 修复 PyTorch CUDA 编译时无法检测架构的问题
+# 8.0 = A100, 8.9 = H100, 9.0 = H100 (Hopper)
+export TORCH_CUDA_ARCH_LIST="8.0;8.9;9.0"
+
 export VLLM_ATTENTION_BACKEND=FLASH_ATTN_VLLM_V1
 export VLLM_USE_V1=1
 
 export SANDBOX_FUSION_ENDPOINT="http://localhost:8080"
 export WANDB_API_KEY="fc7022e7e115dbc7bef672a9137ebb0618ec9160"
 
-export MASTER_PORT=29500
-export NCCL_PORT=29500
 
 python3 -m verl.trainer.main_ppo \
     algorithm.adv_estimator=grpo \
-    data.train_files=./data/geo3k/train.parquet \
-    data.val_files=./data/geo3k/test.parquet \
+    data.train_files=/apdcephfs/private_ringohlli_qy4/project/verl_mllm/data/geo3k/train.parquet \
+    data.val_files=/apdcephfs/private_ringohlli_qy4/project/verl_mllm/data/geo3k/test.parquet \
     data.train_batch_size=512 \
     data.max_prompt_length=2048 \
     data.max_response_length=8192 \
@@ -64,7 +64,6 @@ python3 -m verl.trainer.main_ppo \
     actor_rollout_ref.rollout.log_prob_micro_batch_size_per_gpu=32 \
     actor_rollout_ref.rollout.tensor_model_parallel_size=1 \
     actor_rollout_ref.rollout.name=sglang \
-    +actor_rollout_ref.rollout.engine_kwargs.vllm.disable_mm_preprocessor_cache=True \
     actor_rollout_ref.rollout.gpu_memory_utilization=0.85 \
     actor_rollout_ref.rollout.multi_stage_wake_up=True \
     global_profiler.tool=torch_memory \
@@ -131,12 +130,18 @@ python3 -m verl.trainer.main_ppo \
 # export WANDB_API_KEY="fc7022e7e115dbc7bef672a9137ebb0618ec9160"
 # unset http_proxy
 # unset https_proxy
-# nohup ray start --address=28.49.57.178:6380 --num-gpus=8 --block > /dev/null 2>&1 &
+# nohup ray start --address=28.58.224.68:6380 --num-gpus=8 --block > /dev/null 2>&1 &
 # "
 
 
 
 
-
+# pssh -i -t 0 -h pssh.hosts -i "
+# export http_proxy=http://star-proxy.oa.com:3128
+# export https_proxy=http://star-proxy.oa.com:3128
+# git clone https://github.com/lihaoling/verl_mllm.git
+# cd verl_mllm
+# pip install -e .
+# "
 
 
